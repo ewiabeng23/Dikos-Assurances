@@ -3,6 +3,7 @@ from pydantic import BaseModel
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from twilio.rest import Client
 from ..core.config import settings
 
 router = APIRouter(prefix="/enquiries", tags=["enquiries"])
@@ -59,10 +60,37 @@ Message: {enquiry.message or 'N/A'}
         server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
         server.sendmail(settings.EMAIL_FROM, settings.ENQUIRY_EMAIL, msg.as_string())
 
+def send_whatsapp(enquiry: EnquiryIn):
+    if not settings.TWILIO_SID or not settings.TWILIO_TOKEN:
+        return
+    client = Client(settings.TWILIO_SID, settings.TWILIO_TOKEN)
+    client.messages.create(
+        from_=settings.WHATSAPP_FROM,
+        to=f"whatsapp:{settings.ENQUIRY_WHATSAPP}",
+        body=(
+            f"📋 *New Enquiry — Diko's Assurances*\n\n"
+            f"👤 *Name:* {enquiry.firstName} {enquiry.lastName}\n"
+            f"📞 *Phone:* {enquiry.phone}\n"
+            f"🛡️ *Type:* {enquiry.type}\n"
+            f"💬 *Message:* {enquiry.message or 'N/A'}"
+        )
+    )
+
 @router.post("/")
 async def submit_enquiry(enquiry: EnquiryIn):
+    errors = []
+
     try:
         send_email(enquiry)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to send notification: {str(e)}")
+        errors.append(f"Email failed: {str(e)}")
+
+    try:
+        send_whatsapp(enquiry)
+    except Exception as e:
+        errors.append(f"WhatsApp failed: {str(e)}")
+
+    if len(errors) == 2:
+        raise HTTPException(status_code=500, detail=" | ".join(errors))
+
     return {"status": "ok", "message": "Enquiry received"}
