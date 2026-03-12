@@ -257,12 +257,28 @@ function WhyUs({ t }) {
 function Contact({ t }) {
   const [form, setForm] = useState({ firstName:'', lastName:'', phone:'', type:'', message:'' })
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState(false)
 
-  function handleSubmit() {
+  async function handleSubmit() {
     if (!form.firstName || !form.phone || !form.type) return
-    setSent(true)
-    setTimeout(() => setSent(false), 4000)
-    setForm({ firstName:'', lastName:'', phone:'', type:'', message:'' })
+    setSending(true)
+    try {
+      const res = await fetch('/api/enquiries/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      })
+      if (!res.ok) throw new Error('Failed')
+      setSent(true)
+      setForm({ firstName:'', lastName:'', phone:'', type:'', message:'' })
+      setTimeout(() => setSent(false), 5000)
+    } catch {
+      setError(true)
+      setTimeout(() => setError(false), 4000)
+    } finally {
+      setSending(false)
+    }
   }
 
   const infos = [
@@ -306,6 +322,12 @@ function Contact({ t }) {
         {/* Form */}
         <div className="rounded-lg p-8" style={{ border: '1px solid var(--border)', background: 'rgba(10,22,40,.4)' }}>
           <h3 className="font-serif text-lg font-medium mb-6">{t.formTitle}</h3>
+          {error && (
+            <div className="mb-4 px-4 py-3 rounded text-sm"
+                 style={{ background: 'rgba(231,76,60,.1)', border: '1px solid rgba(231,76,60,.3)', color: '#e74c3c' }}>
+              Something went wrong. Please try again.
+            </div>
+          )}
           {sent && (
             <div className="mb-4 px-4 py-3 rounded text-sm"
                  style={{ background: 'rgba(46,204,113,.1)', border: '1px solid rgba(46,204,113,.3)', color: '#2ecc71' }}>
@@ -358,10 +380,11 @@ function Contact({ t }) {
           </div>
           <button onClick={handleSubmit}
                   className="w-full py-3 rounded text-sm font-medium uppercase tracking-wider transition-all"
-                  style={{ background: 'var(--gold)', color: 'var(--navy)' }}
+                  style={{ background: 'var(--gold)', color: 'var(--navy)', opacity: sending ? 0.7 : 1 }}
+                  disabled={sending}
                   onMouseOver={e => e.currentTarget.style.background='var(--gold2)'}
                   onMouseOut={e => e.currentTarget.style.background='var(--gold)'}>
-            {t.submit}
+            {sending ? '...' : t.submit}
           </button>
         </div>
       </div>

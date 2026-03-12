@@ -23,6 +23,8 @@ class Settings(BaseSettings):
     WHATSAPP_FROM: str    = ""
     TWILIO_SID: str       = ""
     TWILIO_TOKEN: str     = ""
+    ENQUIRY_EMAIL: str    = ""
+    ENQUIRY_WHATSAPP: str = ""
 
     class Config:
         env_file = str(ENV_FILE)

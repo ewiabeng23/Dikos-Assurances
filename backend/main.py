@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from .core.database import Base, engine
-from .routers import auth, clients, policies, reminders
+from .routers import auth, clients, policies, reminders, enquiries
 from .routers.reminders import start_scheduler
 
 scheduler = None
@@ -43,6 +43,7 @@ app.include_router(auth.router)
 app.include_router(clients.router)
 app.include_router(policies.router)
 app.include_router(reminders.router)
+app.include_router(enquiries.router)
 
 @app.get("/")
 def root():
