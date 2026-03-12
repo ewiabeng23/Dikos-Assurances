@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react'
 import axios from 'axios'
 
 const AuthContext = createContext()
-const API = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API = '/api';
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => localStorage.getItem('dikos_token'))

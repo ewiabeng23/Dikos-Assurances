@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react'
 
 const translations = {
   fr: {
-    nav: { services:'Services', about:'À Propos', whyUs:'Pourquoi Nous', contact:'Contact', clientLogin:'Espace Client', broker:'Courtier en Assurances' },
+    nav: { services:'Services', about:'À Propos', whyUs:'Pourquoi Nous', contact:'Contact', clientLogin:'Staff Portal', broker:'Courtier en Assurances' },
     hero: {
       eyebrow:'Courtier Agréé — Chanas Assurances S.A.',
       h1_1:'Votre', h1_em:'protection,', h1_2:"notre engagement.",
@@ -114,7 +114,7 @@ const translations = {
     },
   },
   en: {
-    nav: { services:'Services', about:'About', whyUs:'Why Us', contact:'Contact', clientLogin:'Client Login', broker:'Insurance Broker' },
+    nav: { services:'Services', about:'About', whyUs:'Why Us', contact:'Contact', clientLogin:'Staff Portal', broker:'Insurance Broker' },
     hero: {
       eyebrow:'Accredited Broker — Chanas Assurances S.A.',
       h1_1:'Your', h1_em:'protection,', h1_2:'our commitment.',

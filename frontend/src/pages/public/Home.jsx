@@ -32,7 +32,8 @@ function Hero({ t }) {
            style={{ background: 'radial-gradient(circle,rgba(201,168,76,.06) 0%,transparent 70%)' }} />
 
       <div className="max-w-7xl mx-auto px-6 py-24 w-full">
-        <div className="max-w-3xl fade-up">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="fade-up">
           <Eyebrow>{t.eyebrow}</Eyebrow>
           <h1 className="font-serif font-light leading-none mb-6"
               style={{ fontSize: 'clamp(3rem,6vw,5.5rem)' }}>
@@ -67,6 +68,11 @@ function Hero({ t }) {
                 <div className="text-xs uppercase tracking-wider mt-1" style={{ color: 'var(--muted)' }}>{label}</div>
               </div>
             ))}
+          </div>
+          </div>
+          {/* Right column — Rings */}
+          <div className="hidden md:flex items-center justify-center">
+            <EstablishedRings lang={t.lang} />
           </div>
         </div>
       </div>
@@ -113,6 +119,63 @@ function Services({ t }) {
         </div>
       </div>
     </section>
+  )
+}
+
+
+/* ── Animated Rings ── */
+function EstablishedRings({ lang }) {
+  return (
+    <div className="flex items-center justify-center py-12">
+      <style>{`
+        @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes spinReverse { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+        .ring-outer { animation: spinSlow 18s linear infinite; }
+        .ring-inner { animation: spinReverse 12s linear infinite; }
+      `}</style>
+      <div style={{ position: 'relative', width: '220px', height: '220px' }}>
+        {/* Outer rotating ring */}
+        <div className="ring-outer" style={{
+          position: 'absolute', inset: 0,
+          borderRadius: '50%',
+          border: '1.5px solid rgba(201,168,76,0.35)',
+          boxShadow: '0 0 30px rgba(201,168,76,0.08)',
+        }}>
+          {/* Dot on outer ring */}
+          <div style={{
+            position: 'absolute', top: '-4px', left: '50%', transform: 'translateX(-50%)',
+            width: '8px', height: '8px', borderRadius: '50%',
+            background: 'var(--gold)', boxShadow: '0 0 8px rgba(201,168,76,0.8)',
+          }} />
+        </div>
+        {/* Inner rotating ring */}
+        <div className="ring-inner" style={{
+          position: 'absolute', inset: '24px',
+          borderRadius: '50%',
+          border: '1px solid rgba(201,168,76,0.2)',
+        }}>
+          {/* Dot on inner ring */}
+          <div style={{
+            position: 'absolute', bottom: '-4px', left: '50%', transform: 'translateX(-50%)',
+            width: '5px', height: '5px', borderRadius: '50%',
+            background: 'rgba(201,168,76,0.6)',
+          }} />
+        </div>
+        {/* Centre content */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center', justifyContent: 'center', gap: '2px',
+        }}>
+          <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '2.8rem', fontWeight: 300, lineHeight: 1, color: 'var(--gold)' }}>10</div>
+          <div style={{ fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(248,246,241,0.5)' }}>
+            {lang === 'fr' ? `ANS D'EXPÉRIENCE` : 'YEARS OF EXPERTISE'}
+          </div>
+          <div style={{ width: '24px', height: '1px', background: 'rgba(201,168,76,0.4)', margin: '4px 0' }} />
+          <div style={{ fontSize: '0.65rem', letterSpacing: '0.15em', color: 'rgba(201,168,76,0.7)' }}>EST. 2016</div>
+        </div>
+      </div>
+    </div>
   )
 }
 
