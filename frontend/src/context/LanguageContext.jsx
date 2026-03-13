@@ -41,7 +41,7 @@ const translations = {
     contact: {
       eyebrow:'Nous Trouver', title:"Parlons de\nvotre projet",
       subtitle:"Contactez-nous pour un devis gratuit ou toute question relative à vos assurances.",
-      address:'Avenue Principale, Douala, Cameroun', phone:'+44 7789806378',
+      address:'Face Gymnase Lycee Polyvalant de Bonaberi, BP 4810 Douala, Cameroun', phone:'+44 7789806378',
       email:'ewiabeng@yahoo.com', hours:'Lun – Ven : 9h00 – 18h00',
       labels:{ address:'Adresse', phone:'Téléphone', email:'Email', hours:'Horaires' },
       whatsapp:'Écrire sur WhatsApp',
