@@ -25,7 +25,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS — allow Vite dev server + production domain
+# CORS — allow Vite dev server + production domain + Vercel deployments
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -34,6 +34,7 @@ app.add_middleware(
         "https://dikosassurances.com",
         "https://www.dikosassurances.com",
     ],
+    allow_origin_regex=r"https://.*\.vercel\.app",  # <-- ADDED THIS LINE
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
