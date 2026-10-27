@@ -10,3 +10,4 @@ python-dotenv==1.2.2
 apscheduler==3.11.2
 pydantic-settings==2.13.1
 requests==2.32.5
+twilio==9.4.0
